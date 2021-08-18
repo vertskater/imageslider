@@ -1,0 +1,1 @@
+JavaScript based image slider
