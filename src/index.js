@@ -42,6 +42,14 @@ const pictures = [
     src: "https://images.unsplash.com/photo-1628627260268-ef0da5c9c10e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
     isActive: false,
   },
+  {
+    src: "https://images.unsplash.com/photo-1629204884772-fe5703498336?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+    isActive: false,
+  },
+  {
+    src: "https://images.unsplash.com/photo-1532896374032-fdffb11e2b8e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+    isActive: false,
+  },
 ];
 
 let position = 0;
@@ -85,11 +93,13 @@ next.addEventListener("click", () => {
   const lastPic = images.length - 1;
   if (pictures[lastPic].isActive === false) {
     shiftPic("plus");
+    changeNavIndex();
   }
 });
 prev.addEventListener("click", () => {
   if (pictures[0].isActive === false) {
     shiftPic("minus");
+    changeNavIndex();
   }
 });
 
@@ -108,4 +118,55 @@ function shiftPic(operator) {
   operator === "minus"
     ? (pictures[index - 1].isActive = true)
     : (pictures[index + 1].isActive = true);
+}
+
+//bottom Navigation
+const dots = [];
+const bottomNav = document.createElement("div");
+bottomNav.classList.add("bottom-nav");
+
+for (let i = 0; i < pictures.length; i++) {
+  dots.push(document.createElement("div"));
+  dots[i].classList.add("navpoint");
+  dots[i].dataset.index = i;
+  bottomNav.appendChild(dots[i]);
+}
+carouselContainer.appendChild(bottomNav);
+
+function changeNavIndex() {
+  let navIndex = 0;
+  for (let i = 0; i < pictures.length; i++) {
+    if (pictures[i].isActive) {
+      navIndex = i;
+    }
+    dots[i].style.backgroundColor = "transparent";
+  }
+  dots[navIndex].style.backgroundColor = "gray";
+}
+changeNavIndex();
+dots.forEach((dot) => {
+  dot.addEventListener("click", () => {
+    let position = 0;
+    navToPosition(dot.dataset.index, position);
+    changeNavIndex();
+  });
+});
+
+function navToPosition(index, position) {
+  pictures.forEach((pic) => {
+    pic.isActive = false;
+  });
+  pictures[index].isActive = true;
+  images[index].style.left = "0%";
+  index++;
+  for (let i = index; i < images.length; i++) {
+    position -= 200;
+    images[i].style.left = position + "%";
+    console.log(position);
+  }
+  position = index * 200;
+  for (let i = 0; i < index; i++) {
+    position -= 200;
+    images[i].style.left = position + "%";
+  }
 }
