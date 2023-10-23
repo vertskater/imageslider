@@ -59,7 +59,7 @@ for (let i = 0; i < pictures.length; i++) {
   image.dataset.index = i;
   image.src = pictures[i].src;
   image.style.left = position + "%";
-  position -= 200;
+  position -= 100;
   picContainer.appendChild(image);
 }
 
@@ -112,8 +112,8 @@ function shiftPic(operator) {
     }
     position = parseInt(images[i].style.left);
     operator === "minus"
-      ? (images[i].style.left = position - 200 + "%")
-      : (images[i].style.left = position + 200 + "%");
+      ? (images[i].style.left = position - 100 + "%")
+      : (images[i].style.left = position + 100 + "%");
   }
   operator === "minus"
     ? (pictures[index - 1].isActive = true)
@@ -160,13 +160,13 @@ function navToPosition(index, position) {
   images[index].style.left = "0%";
   index++;
   for (let i = index; i < images.length; i++) {
-    position -= 200;
+    position -= 100;
     images[i].style.left = position + "%";
     console.log(position);
   }
-  position = index * 200;
+  position = index * 100;
   for (let i = 0; i < index; i++) {
-    position -= 200;
+    position -= 100;
     images[i].style.left = position + "%";
   }
 }
